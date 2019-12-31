@@ -42,7 +42,7 @@ def valid(bo, num, pos):
             return False
 
     # check 3x3
-    box_x = pos[1] // 3  # (3, 3)  -- 1, 1 -- 3, 6 ---j = 3,
+    box_x = pos[1] // 3
     box_y = pos[0] // 3
 
     for i in range(box_y*3, box_y*3 + 3):
