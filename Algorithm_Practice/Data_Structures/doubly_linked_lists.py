@@ -1,11 +1,12 @@
 """
-Linked Lists
+Doubly Linked Lists
 """
 
 
 class Node:
     def __init__(self, val):
         self.val = val
+        self.prev = None
         self.next = None
 
 
@@ -16,15 +17,14 @@ class LinkedList:
     def push(self, data):
         new_node = Node(data)
 
-        # if head is empty or new list
         if self.head is None:
             self.head = new_node
             return
 
-        # else move current list back
         prev_head = self.head
         self.head = new_node
         self.head.next = prev_head
+        prev_head.prev = self.head
 
     def append(self, data):
         new_node = Node(data)
@@ -38,12 +38,13 @@ class LinkedList:
             last = last.next
 
         last.next = new_node
+        new_node.prev = last
 
-    def append_after(self, mid, data):
+    def append_after(self, after_node, data):
         head = self.head
 
         while head:
-            if head.val == mid:
+            if head.val == after_node:
                 break
             head = head.next
 
@@ -52,20 +53,24 @@ class LinkedList:
             return
 
         new_node = Node(data)
-        new_node.next = head.next
+        mid_next = head.next
+
         head.next = new_node
+        new_node.prev = head
 
-    def remove(self, remove_node):
-        head = self.head
+        new_node.next = mid_next
+        mid_next.prev = new_node
+
+    def remove(self, data):
+        if self.head is None:
+            print("List does not exist")
+            return
+
         prev = None
+        head = self.head
 
-        if head is not None:
-            if head.val == remove_node:
-                self.head = head.next
-                return
-
-        while head is not None:
-            if head.val == remove_node:
+        while head:
+            if head.val == data:
                 break
             prev = head
             head = head.next
@@ -73,21 +78,24 @@ class LinkedList:
         if head is None:
             return
 
-        prev.next = head.next
+        new_next = head.next
+        prev.next = new_next
+        new_next.prev = prev
 
     def print_val(self):
         head = self.head
 
         while head:
-            print(str(head.val) + "->", end=" ")
+            print(str(head.val) + "-><-", end="")
             head = head.next
+
+        if head is None:
+            print("NULL", end="")
 
 
 lst = LinkedList()
-lst.head = Node(10)
-lst.append(12)
-lst.append(15)
-lst.append(0)
-lst.push(30)
-lst.append_after(12, 100)
+lst.append(10)
+lst.push(13)
+lst.append(11)
+lst.append_after(10, 30)
 lst.print_val()
