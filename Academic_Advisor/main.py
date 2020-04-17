@@ -4,6 +4,7 @@ from MailingAddress import MailingAddress
 from Email import Email
 from PhoneNumber import PhoneNumber
 from Date import Date
+from Semester import Semester
 
 
 def get_multiple(data, delimiter):
@@ -63,6 +64,7 @@ def show_message(message):
 
     return str(inp)
 
+
 def enter_students():
     first_name = input("Enter first name: ")
     middle_name = input("Enter middle name: ")
@@ -75,22 +77,58 @@ def enter_students():
     a_zip = input("Enter zip: ")
     a_type = input("Enter type: ")
     emails = []
-    types = []
+    e_types = []
     while (c:=show_message("Menu Email:\n1. Add new email\n2. Exit")) != 2:
         if c == "1":
-            email = input("Enter email: ")
-            emails.append(email)
-            e_type = input("Enter email type: ")
-            types.append(e_type)
+            emails.append(input("Enter email: "))
+            e_types.append(input("Enter email type: "))
         else:
             break
 
+    phones = []
+    p_types = []
+    while (c:=show_message("Menu Phone:\n1. Add new phone number\n2. Exit")) != 2:
+        if c == "1":
+            phones.append(input("Enter phone number: "))
+            p_types.append(input("Enter phone number type: "))
+        else:
+            break
+
+    b_date = input("Enter birth date (month day year): ")
+    a_date = input("Enter acceptance date (month day year): ")
+    sem = input("Enter semester and semester standing: ")
+    major = input("Enter major: ")
+    minor = input("Enter minor: ")
+    stats = input("Enter status: ")
+
+    return StudentNode(first_name, middle_name, last_name, uid, id_num,
+                       MailingAddress([street.split(), city, state, a_zip, a_type]),
+                       Email([emails, e_types]), PhoneNumber([phones, p_types]),
+                       Date(b_date.split()), Date(a_date.split()), Semester(sem.split()), major,
+                       minor, stats)
+
+
+def edit_student_information():
+    uid = input("Enter student ID: ")
+    field = ""
+    c = show_message("What information to change:\n1. First name\n2. Middle Name\n3. Last Name\n4. ID Number"
+                     "\n5. Mailing Address\n6. Email\n7. Phone Number\n8. Birthdate\n9. Acceptance Date\n10. Semester"
+                     "\n11. Major\n12. Minor\n13. Status")
+
+
 
 def menu():
-    c = show_message(f'1. Enter new student\n2. Edit a student\n3. Delete a student\n4. Display Student\n'
-                 f'5. Display Students\n6. Write students to file\n7. Read students from file\n8. Exit application')
-    if c == "1":
-        enter_students()
+    students = StudentList()
+    while True:
+        c = show_message(f'1. Enter new student\n2. Edit a student\n3. Delete a student\n4. Display Student\n'
+                     f'5. Display Students\n6. Write students to file\n7. Read students from file\n8. Exit application')
+        if c == "1":
+            students.add_student(enter_students())
+        # elif c == "2":
+        #     uid, field, new_data = edit_student_information()
+        #     students.edit_student(uid, field, new_data)
+        elif c == "8":
+            return False
 
 
 
@@ -100,6 +138,7 @@ def menu():
 
 
 def main():
+    students = menu()
     with open("test.txt", 'r') as f:
         info = parse(f.read())
         students = StudentList()
