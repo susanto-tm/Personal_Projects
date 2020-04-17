@@ -1,0 +1,2 @@
+Name|IDNumber UserID Semester Major|Minor|Status|Birthdate Acceptance|Email|!Phone Number|!Mailing Address|!
+Alex|M|Hastie|12345 stu1567 Fall 2 Computer Science|None|Enrolled|11 2 96 8 25 19|!stu1@psu.edu|school|stu1pers@email.com|personal|!215-555-2102|Work|484-555-3234|Home|!123|Road|City|State|21102|Permanent|!
